@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\nirgi-mvc.props" />
+</Project>
