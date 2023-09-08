@@ -10,7 +10,13 @@ builder.Services.AddDbContext<MvcUniversityContext>(options => options.UseSqlSer
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
+
+
 var app = builder.Build();
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<MvcUniversityContext>();
+SchemaInitializer.Initialize(dbContext);
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

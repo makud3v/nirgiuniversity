@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using nirgi_mvc.Data;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace nirgi_mvc.Controllers
 {
@@ -16,6 +16,25 @@ namespace nirgi_mvc.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Students.ToListAsync());
+        }
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var student = await _context.Students
+                .Include(s => s.Enrollments)
+                .ThenInclude(equals => equals.Course)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
         }
     }
 }

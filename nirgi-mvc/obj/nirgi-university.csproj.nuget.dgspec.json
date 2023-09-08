@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\opilane\\source\\repos\\nirgi-mvc\\nirgi-mvc\\nirgi-university.csproj": {}
+    "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj": {}
   },
   "projects": {
-    "C:\\Users\\opilane\\source\\repos\\nirgi-mvc\\nirgi-mvc\\nirgi-university.csproj": {
+    "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\opilane\\source\\repos\\nirgi-mvc\\nirgi-mvc\\nirgi-university.csproj",
+        "projectUniqueName": "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
         "projectName": "nirgi-university",
-        "projectPath": "C:\\Users\\opilane\\source\\repos\\nirgi-mvc\\nirgi-mvc\\nirgi-university.csproj",
+        "projectPath": "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
         "packagesPath": "C:\\Users\\opilane\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\opilane\\source\\repos\\nirgi-mvc\\nirgi-mvc\\obj\\",
+        "outputPath": "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -58,6 +58,12 @@
               "version": "[7.0.10, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.21, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.21, )"
             }

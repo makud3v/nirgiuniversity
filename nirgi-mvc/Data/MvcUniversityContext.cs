@@ -20,7 +20,7 @@ namespace nirgi_mvc.Data
         }
 
         //entities
-        public DbSet<Student> Students { get; set; }
+        public DbSet<Student> Students { get; set; } 
         public DbSet<Course> Courses { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Department> Departments { get; set; }
