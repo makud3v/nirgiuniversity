@@ -19,7 +19,6 @@ namespace nirgi_mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Enrollment e)
         {
-            Console.WriteLine(e.ToString());
             try
             {
                 var enrollment = _context.Enrollments.Where(enrollment => enrollment.EnrollmentID == e.EnrollmentID).FirstOrDefault();

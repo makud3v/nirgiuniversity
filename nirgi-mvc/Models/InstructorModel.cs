@@ -1,9 +1,16 @@
-﻿namespace nirgi_mvc.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System;
+
+namespace nirgi_mvc.Models
 {
-    public class Instructor
+    public class Instructor : Person
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Hire Date")]
+        public DateTime HireDate { get; set; }
+
+        public ICollection<CourseAssignment> CourseAssignments { get; set; }
+        public OfficeAssignment OfficeAssignment { get; set; }
     }
 }

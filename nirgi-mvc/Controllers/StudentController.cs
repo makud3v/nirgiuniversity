@@ -15,16 +15,6 @@ namespace nirgi_mvc.Controllers
         }
 
 
-        private async Task<Student>? getStudent(int? id)
-        {
-            return await _context.Students
-                .Include(s => s.Enrollments)
-                .ThenInclude(equals => equals.Course)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
-        }
-
-
         public async Task<IActionResult> Index()
         {
             return View(await _context.Students.ToListAsync());
@@ -43,6 +33,7 @@ namespace nirgi_mvc.Controllers
             return View(student);
         }
 
+
         public async Task<IActionResult> Edit(int? id)
         {
             var student = await getStudent(id);
@@ -52,11 +43,6 @@ namespace nirgi_mvc.Controllers
             }
 
             return View(student);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -82,6 +68,28 @@ namespace nirgi_mvc.Controllers
             return RedirectToAction("Edit");
         }
 
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            return View(await getStudent(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Student student)
+        {
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
@@ -93,21 +101,22 @@ namespace nirgi_mvc.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateException /* ex */)
+            catch (DbUpdateException)
             {
-                //Log the error (uncomment ex variable name and write a log.
                 ModelState.AddModelError("", "Unable to save changes");
             }
 
             return View(student);
         }
 
-        public async Task<IActionResult> Delete (int? id)
+
+        private async Task<Student> getStudent(int? id)
         {
-            Student student = _context.Students.Where(s => s.Id == id).FirstOrDefault();
-            _context.Students.Remove(student);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            return await _context.Students
+                .Include(s => s.Enrollments)
+                .ThenInclude(equals => equals.Course)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
     }
 }
