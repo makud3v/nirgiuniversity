@@ -15,16 +15,17 @@ namespace nirgi_mvc.Controllers
         }
 
 
+        // GET: Student/
         public async Task<IActionResult> Index()
         {
             return View(await _context.Students.ToListAsync());
         }
 
 
-
+        // GET: Student/Details/{id}
         public async Task<IActionResult> Details(int? id)
         {
-            var student = await getStudent(id);
+            var student = await getStudentById(id);
             if (student == null)
             {
                 return NotFound();
@@ -34,9 +35,10 @@ namespace nirgi_mvc.Controllers
         }
 
 
+        // GET: Student/Edit/{id}
         public async Task<IActionResult> Edit(int? id)
         {
-            var student = await getStudent(id);
+            var student = await getStudentById(id);
             if (student == null)
             {
                 return NotFound();
@@ -45,6 +47,7 @@ namespace nirgi_mvc.Controllers
             return View(student);
         }
 
+        // POST: Student/Edit/{student}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(Student std)
@@ -65,31 +68,35 @@ namespace nirgi_mvc.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Edit");
+            return RedirectToAction(nameof(Index));
         }
 
-
+        // GET: Student/Delete/{id}
         public async Task<IActionResult> Delete(int? id)
         {
-            return View(await getStudent(id));
+            return View(await getStudentById(id));
         }
 
+
+        // POST: Student/Delete/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Student student)
+        public async Task<IActionResult> Delete(int id)
         {
+            Student student = await getStudentById(id);
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
 
-
+        // GET: Student/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST: Student/Create/{student}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
@@ -110,7 +117,7 @@ namespace nirgi_mvc.Controllers
         }
 
 
-        private async Task<Student> getStudent(int? id)
+        private async Task<Student> getStudentById(int? id)
         {
             return await _context.Students
                 .Include(s => s.Enrollments)

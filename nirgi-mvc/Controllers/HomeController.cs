@@ -13,17 +13,20 @@ namespace nirgi_mvc.Controllers
             _logger = logger;
         }
 
+        // GET: Home/
         public IActionResult Index()
         {
             return View();
         }
 
+        // GET: Home/About
         public IActionResult About()
         {
             return View();
         }
 
 
+        // GET: Home/Error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

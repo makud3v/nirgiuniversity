@@ -4,14 +4,14 @@
     ViewData["Title"] = "Edit";
 }
 
+
+<h4>Student</h4>
+<h6>@Model.FullName</h6>
+<hr />
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    <h4>Student</h4>
-    <h6>@Model.FullName</h6>
-    <hr />
-
     <fieldset>
         @Html.HiddenFor(model => model.Id)
         <dl class="row">

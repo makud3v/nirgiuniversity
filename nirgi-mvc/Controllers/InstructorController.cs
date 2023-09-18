@@ -16,6 +16,7 @@ namespace nirgi_mvc.Controllers
         }
 
 
+        // GET: Instructor/
         public async Task<IActionResult> Index(int? id, int? courseID)
         {
             var viewModel = new InstructorIndexData();
@@ -49,7 +50,82 @@ namespace nirgi_mvc.Controllers
 
             return View(viewModel);
         }
+        
 
+        // GET: Instructor/Create
+        public async Task<IActionResult> Create()
+        {
+            return View();
+        }
+
+        // POST: Instructor/Create/{instructor}
+        public async Task<IActionResult> Create(Instructor instructor)
+        {
+            _context.Instructors.Add(instructor);
+            // finish later pls
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // GET: Instructor/Edit/{id}
+        public async Task<IActionResult> Edit(int? id)
+        {
+            Instructor instructor = await getInstructorById(id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+
+            return View(instructor);
+        }
+
+        // POST: Instructor/Edit/{instructor}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Instructor instr, string[] selectedCourses)
+        {
+            if (instr == null)
+            {
+                return NotFound();
+            }
+
+            var instructorToUpdate = await _context.Instructors.Where(instructor => instructor.Id == instr.Id)
+                .FirstOrDefaultAsync();
+
+            if (await TryUpdateModelAsync<Instructor>(
+                instructorToUpdate,
+                "",
+                i => i.FirstName, 
+                i => i.LastName, 
+                i => i.HireDate, 
+                i => i.OfficeAssignment
+                ))
+            {
+                if (String.IsNullOrWhiteSpace(instructorToUpdate.OfficeAssignment?.Location))
+                {
+                    instructorToUpdate.OfficeAssignment = null;
+                }
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError("", "Unable to save changes.");
+                    throw ex;
+                }
+
+
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            return View(instructorToUpdate);
+        }
+
+
+        // GET: Instructor/Details/{id}
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,9 +134,11 @@ namespace nirgi_mvc.Controllers
             }
 
 
-            return View(await getInstructor(id));
+            return View(await getInstructorById(id));
         }
 
+
+        // GET: Instructor/Delete/{id}
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -68,19 +146,62 @@ namespace nirgi_mvc.Controllers
                 return NotFound();
             }
 
-            return View(await getInstructor(id));
+            return View(await getInstructorById(id));
         }
 
+        // POST: Instructor/Delete/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(Instructor instructor)
+        public async Task<IActionResult> Delete(int id)
         {
+            Instructor instructor = await getInstructorById(id);
+
+            var departments = await _context.Departments
+                .Where(d => d.InstructorID == id)
+                .ToListAsync();
+            departments.ForEach(d => d.InstructorID = null);
+
             _context.Instructors.Remove(instructor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<Instructor> getInstructor(int? id)
+
+        private bool populateAssignedCourses(InstructorDetailData viewData)
+        {
+            if (viewData == null)
+            {
+                return false;
+            }
+
+            foreach (var courseAssignment in _context.CourseAssignments)
+            {
+                if (courseAssignment.Instructor == viewData.Instructor)
+                {
+                    viewData.AssignedCourses.Append(courseAssignment);
+                }
+                else
+                {
+                    if (viewData.AssignedCourses.Contains(courseAssignment))
+                    {
+                        viewData.AssignedCourses.ToList<CourseAssignment>().Remove(courseAssignment);
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private void updateCourseData(Instructor instructor, string[] activeCourses)
+        {
+            
+
+
+
+ 
+        }
+
+        private async Task<Instructor> getInstructorById(int? id)
         {
             return await _context.Instructors
                 .Include(i => i.OfficeAssignment)

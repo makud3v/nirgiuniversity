@@ -16,6 +16,7 @@ namespace nirgi_mvc.Controllers
         }
 
 
+        // GET: Course/
         public async Task<IActionResult> Index()
         {
             return View(await _context.Courses
@@ -23,6 +24,7 @@ namespace nirgi_mvc.Controllers
                 .ToListAsync());
         }
 
+        // GET: Course/Details/{id}
         public async Task<IActionResult> Details(int? id)
         {
             var course = await getCourse(id);
@@ -32,6 +34,7 @@ namespace nirgi_mvc.Controllers
             return View(course);
         }
 
+        // GET: Course/Create
         public async Task<IActionResult> Create()
         {
             ViewBag.DepartmentId = new SelectList(_context.Departments.AsNoTracking(), "DepartmentID", "Name");
@@ -39,7 +42,7 @@ namespace nirgi_mvc.Controllers
             return View();
         }
 
-
+        // POST: Course/Create/{course}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Course course)
@@ -58,7 +61,7 @@ namespace nirgi_mvc.Controllers
             return View(course);
         }
 
-
+        // GET: Course/Edit/{id}
         public async Task<IActionResult> Edit(int? id)
         {
             var course = await getCourse(id);
@@ -70,6 +73,7 @@ namespace nirgi_mvc.Controllers
             return View(course);
         }
 
+        // POST: Course/Edit/{course}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Course cs)
@@ -92,11 +96,13 @@ namespace nirgi_mvc.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Course/Delete/{id}
         public async Task<IActionResult> Delete(int? id)
         {
             return View(await getCourse(id));
         }
 
+        // POST: Course/Delete/{course}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Course course)
@@ -105,8 +111,6 @@ namespace nirgi_mvc.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
 
         private async Task<Course> getCourse(int? id)
         {
