@@ -1,36 +1,63 @@
-﻿@model nirgi_mvc.Models.Instructor
+﻿@model nirgi_mvc.Models.ViewModels.InstructorDetailData
 
 @{
-    ViewData["Title"] = "Details";
+    List<int> assignedCourses = new();
 }
 
-<h1>Details</h1>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        @Html.HiddenFor(model => model.Instructor.Id)
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Instructor.LastName)
+            </dt>
+            <dd class="form-group col-sm-10">
+                @Html.DisplayFor(model => model.Instructor.LastName)
+            </dd>
 
-<div>
-    <h4>Instructor</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HireDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.HireDate)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index" class="btn btn-outline-primary">Back</a>
-    <a asp-action="Edit" class="btn btn-outline-primary" asp-route-id="@Model.Id">Edit</a>
-</div>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Instructor.FirstName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Instructor.FirstName)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Instructor.HireDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Instructor.HireDate)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Instructor.OfficeAssignment.Location)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Instructor.OfficeAssignment.Location)
+            </dd>
+        </dl>
+
+        <table class="table">
+            <tr>
+                <th>Number</th>
+                <th>Title</th>
+                <th>Department</th>
+            </tr>
+
+            @foreach (Course course in Model.AllCourses.ToList())
+            {
+                var assigned = (Model.Instructor.CourseAssignments.Where(assignment => assignment.CourseID == course.CourseID).Count() != 0);
+                <tr>
+                    <td>@course.CourseID</td>
+                    <td>@course.Title</td>
+                    <td>@(course.Department?.Name != null ? course.Department.Name : "")</td>
+                </tr>
+            }
+        </table>
+
+        <a asp-action="Index" class="btn btn-outline-primary">Back</a>
+        <a asp-action="Edit" asp-route-id="@Model.Instructor.Id" type="submit" asp-route-courses="@assignedCourses" class="btn btn-outline-primary">Edit</a>
+    </fieldset>
+}

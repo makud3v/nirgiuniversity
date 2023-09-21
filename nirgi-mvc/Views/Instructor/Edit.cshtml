@@ -50,21 +50,18 @@
             @foreach(Course course in Model.AllCourses.ToList())
             {
                 var assigned = (Model.Instructor.CourseAssignments.Where(assignment => assignment.CourseID == course.CourseID).Count() != 0);
-                if (assigned) {
-                    assignedCourses.Append(course.CourseID);
-                }
                 <tr>
                     <td>@course.CourseID</td>
                     <td>@course.Title</td>
                     <td>@(course.Department?.Name != null ? course.Department.Name : "")</td>
                     <td>
-                        <input type="checkbox" checked="@assigned">
+                        <input type="checkbox" name="courses" value="@course.CourseID" checked="@assigned">
                     </td>
                 </tr>
             }
         </table>
 
         <a asp-action="Index" class="btn btn-outline-primary">Back</a>
-        <input type="submit" value="Save" asp-route-courses="@assignedCourses" class="btn btn-outline-primary" />
+        <input type="submit" value="Save" asp-route-courses="@assignedCourses" class="btn btn-primary" />
     </fieldset>
 }
