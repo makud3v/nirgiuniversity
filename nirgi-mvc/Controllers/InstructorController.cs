@@ -70,57 +70,29 @@ namespace nirgi_mvc.Controllers
         // GET: Instructor/Edit/{id}
         public async Task<IActionResult> Edit(int? id)
         {
-            Instructor instructor = await getInstructorById(id);
+            Instructor instructor = await GetInstructorById(id);
+            InstructorDetailData instructorData = await GetInstructorData(instructor);
             if (instructor == null)
             {
                 return NotFound();
             }
 
-            return View(instructor);
+            return View(instructorData);
         }
 
         // POST: Instructor/Edit/{instructor}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Instructor instr, string[] selectedCourses)
+        public async Task<IActionResult> Edit(Instructor instructor, int[] courses)
         {
-            if (instr == null)
+            if (instructor == null)
             {
                 return NotFound();
             }
-
-            var instructorToUpdate = await _context.Instructors.Where(instructor => instructor.Id == instr.Id)
+            var instructorToUpdate = await _context.Instructors.Where(instructor => instructor.Id == instructor.Id)
                 .FirstOrDefaultAsync();
 
-            if (await TryUpdateModelAsync<Instructor>(
-                instructorToUpdate,
-                "",
-                i => i.FirstName, 
-                i => i.LastName, 
-                i => i.HireDate, 
-                i => i.OfficeAssignment
-                ))
-            {
-                if (String.IsNullOrWhiteSpace(instructorToUpdate.OfficeAssignment?.Location))
-                {
-                    instructorToUpdate.OfficeAssignment = null;
-                }
-
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException ex)
-                {
-                    ModelState.AddModelError("", "Unable to save changes.");
-                    throw ex;
-                }
-
-
-                return RedirectToAction(nameof(Index));
-            }
-
-
+            UpdateInstructorCourses(instructorToUpdate, courses);
             return View(instructorToUpdate);
         }
 
@@ -134,7 +106,7 @@ namespace nirgi_mvc.Controllers
             }
 
 
-            return View(await getInstructorById(id));
+            return View(await GetInstructorById(id));
         }
 
 
@@ -146,7 +118,7 @@ namespace nirgi_mvc.Controllers
                 return NotFound();
             }
 
-            return View(await getInstructorById(id));
+            return View(await GetInstructorById(id));
         }
 
         // POST: Instructor/Delete/{id}
@@ -154,7 +126,7 @@ namespace nirgi_mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            Instructor instructor = await getInstructorById(id);
+            Instructor instructor = await GetInstructorById(id);
 
             var departments = await _context.Departments
                 .Where(d => d.InstructorID == id)
@@ -167,45 +139,43 @@ namespace nirgi_mvc.Controllers
         }
 
 
-        private bool populateAssignedCourses(InstructorDetailData viewData)
+        private void UpdateInstructorCourses(Instructor instructorToUpdate, int[] newCourses)
         {
-            if (viewData == null)
+            foreach (var id in newCourses)
             {
-                return false;
-            }
-
-            foreach (var courseAssignment in _context.CourseAssignments)
-            {
-                if (courseAssignment.Instructor == viewData.Instructor)
+                if (instructorToUpdate.CourseAssignments.Where(assignment => assignment.CourseID == id).Count() == 0)
                 {
-                    viewData.AssignedCourses.Append(courseAssignment);
-                }
-                else
-                {
-                    if (viewData.AssignedCourses.Contains(courseAssignment))
+                    instructorToUpdate.CourseAssignments.Add(new()
                     {
-                        viewData.AssignedCourses.ToList<CourseAssignment>().Remove(courseAssignment);
-                    }
+                        Instructor = instructorToUpdate,
+                        InstructorID = instructorToUpdate.Id,
+                        CourseID = id,
+                        Course = _context.Courses.Where(course => course.CourseID == id).FirstOrDefault()
+                    });
                 }
             }
-
-            return true;
         }
 
-        private void updateCourseData(Instructor instructor, string[] activeCourses)
+        private async Task<InstructorDetailData> GetInstructorData(Instructor instructor)
         {
-            
+            InstructorDetailData data = new()
+            {
+                Instructor = instructor,
+                AllCourses = await _context.Courses
+                .Include(i => i.Department)
+                .ToListAsync()
+            };
 
-
-
- 
+            return data;
         }
 
-        private async Task<Instructor> getInstructorById(int? id)
+        private async Task<Instructor> GetInstructorById(int? id)
         {
             return await _context.Instructors
                 .Include(i => i.OfficeAssignment)
-                .Include(i => i.CourseAssignments).ThenInclude(i => i.Course)
+                .Include(i => i.CourseAssignments)
+                    .ThenInclude(i => i.Course)
+                    .ThenInclude(i => i.Department)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
         }

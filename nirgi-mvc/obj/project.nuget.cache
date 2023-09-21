@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "x95kuUXKFIyM6+gFlj3XG8nxcGjPZBcT/HibYSrwk3jIFDNdQHZVEgrnJZGiNWOoX6zeraD06Wo5fdNSxKI6Iw==",
+  "dgSpecHash": "b9tO6ODY84IBFwqd9lHSF5rLZd5MntHQ0KNRAG642EKWt+FKZT/CMzY0YDfWMkuBH7VcLVeX7eINGs3j7lbBiA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
+  "projectFilePath": "C:\\Users\\opilane\\source\\repos\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\opilane\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\opilane\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
