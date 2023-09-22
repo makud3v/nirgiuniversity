@@ -19,12 +19,6 @@ namespace nirgi_mvc.Controllers
             return View();
         }
 
-        // GET: Home/About
-        public IActionResult About()
-        {
-            return View();
-        }
-
 
         // GET: Home/Error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -26,5 +26,10 @@ namespace nirgi_mvc.Models
 
         public Instructor Administrator { get; set; }
         public ICollection<Course> Courses { get; set; }
+
+        public static implicit operator Department(List<Department> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

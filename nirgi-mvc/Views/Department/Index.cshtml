@@ -1,7 +1,38 @@
-﻿@page
-@model Department
+﻿@model IEnumerable<nirgi_mvc.Models.Department>
 
 @{
 }
 
-<div>THIS WILL BE A LIST OF DEPARTMENTS.</div>
+<h2>
+    Departments
+</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(mdl => mdl.DepartmentID)</th>
+        <th>@Html.DisplayNameFor(mdl => mdl.Name)</th>
+        <th>Administrator</th>
+        <th>@Html.DisplayNameFor(mdl => mdl.Budget)</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(mdl => item.DepartmentID)</td>
+            <td>@Html.DisplayFor(mdl => item.Name)</td>
+            <td>@Html.DisplayFor(mdl => item.Administrator.FullName)</td>
+            <td>@Html.DisplayFor(mdl => item.Budget)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DepartmentID" class="btn btn-outline-primary">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.DepartmentID" class="btn btn-outline-primary">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.DepartmentID" class="btn btn-outline-danger">Delete</a>
+            </td>
+        </tr>   
+    }
+</table>

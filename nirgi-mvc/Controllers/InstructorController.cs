@@ -94,7 +94,6 @@ namespace nirgi_mvc.Controllers
 
             instructorToUpdate.OfficeAssignment ??= new OfficeAssignment();
             instructorToUpdate.OfficeAssignment.Location = instructor.OfficeAssignment.Location == null ? "" : instructor.OfficeAssignment.Location;
-
             instructorToUpdate.HireDate = instructor.HireDate;
             UpdateInstructorCourses(instructorToUpdate, courses);
             await _context.SaveChangesAsync();
