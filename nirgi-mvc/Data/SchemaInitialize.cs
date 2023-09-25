@@ -6,11 +6,13 @@ namespace nirgi_mvc.Data
     {
         public static void Initialize(MvcUniversityContext context)
         {
-            context.Database.EnsureCreated();
+            context.Database.EnsureCreated(); // ensure that database and its tables are created
+            
 
             if (context.Students.Any()) return; // if there are students, return and break out of function
 
 
+            // insert default data
             var students = new Student[]
             {
                 new Student { FirstName = "Carson",   LastName = "Alexander",

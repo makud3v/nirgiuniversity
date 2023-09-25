@@ -27,7 +27,7 @@ namespace nirgi_mvc.Controllers
         // GET: Course/Details/{id}
         public async Task<IActionResult> Details(int? id)
         {
-            var course = await getCourse(id);
+            var course = await GetCourseById(id);
             if (course == null)
                 return NotFound();
 
@@ -64,7 +64,7 @@ namespace nirgi_mvc.Controllers
         // GET: Course/Edit/{id}
         public async Task<IActionResult> Edit(int? id)
         {
-            var course = await getCourse(id);
+            var course = await GetCourseById(id);
             if (course == null)
                 return NotFound();
 
@@ -99,7 +99,7 @@ namespace nirgi_mvc.Controllers
         // GET: Course/Delete/{id}
         public async Task<IActionResult> Delete(int? id)
         {
-            return View(await getCourse(id));
+            return View(await GetCourseById(id));
         }
 
         // POST: Course/Delete/{course}
@@ -112,7 +112,7 @@ namespace nirgi_mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<Course> getCourse(int? id)
+        private async Task<Course> GetCourseById(int? id)
         {
             return await _context.Courses
                 .Include(c => c.Department)

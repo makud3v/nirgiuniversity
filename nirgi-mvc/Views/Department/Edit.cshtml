@@ -1,0 +1,56 @@
+﻿@model nirgi_mvc.Models.Department
+
+@{
+    ViewData["Title"] = "Details";
+    int adminId = Model.Administrator.Id;
+}
+
+<h1>Details</h1>
+<h4>Instructor</h4>
+<hr />
+
+@using(Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        @Html.HiddenFor(model => model.DepartmentID);
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.EditorFor(model => model.Name)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Budget)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.EditorFor(model => model.Budget)
+            </dd>
+
+            <dt class="col-sm-2">
+                Administrator
+            </dt>
+            <dt class="col-sm-10">
+                <select name="adminId" class="form-select">
+                    @foreach (var instructor in ViewBag.Instructors)
+                    {
+                        @if(instructor.Id == adminId)
+                        {
+                            <option value="@instructor.Id" selected>@instructor.FullName</option>
+                        }
+                        else
+                        {
+                            <option value="@instructor.Id">@instructor.FullName</option>
+                        }
+
+                }
+                </select>
+            </dt>
+        </dl>
+
+        <a asp-action="Index" class="btn btn-outline-primary">Back</a>
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </fieldset>
+}

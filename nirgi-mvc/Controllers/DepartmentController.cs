@@ -46,5 +46,101 @@ namespace nirgi_mvc.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+        // GET: Department/Details
+        public async Task<IActionResult> Details(int? id)
+        {
+            var department = await GetDepartmentById(id);
+            if (id == null || department == null)
+                return NotFound();
+
+
+            return View(department);
+        }
+
+
+        // GET: Department/Edit/{id}
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var department = await GetDepartmentById(id);
+            if (id == null || department == null)
+                return NotFound();
+
+
+            ViewBag.Instructors = await _context.Instructors.ToListAsync();    
+            return View(department);
+        }
+
+        // POST: Department/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Department department, int? adminId)
+        {
+
+            var departmentToUpdate = await GetDepartmentById(department.DepartmentID);
+            if (departmentToUpdate == null)
+                return NotFound();
+
+            TryUpdateModelAsync(departmentToUpdate, "",
+                s => s.Name,
+                s => s.Budget
+            );
+
+            if (adminId != null)
+            {
+                departmentToUpdate.Administrator = await _context.Instructors.Where(instr => instr.Id == adminId)
+                    .FirstOrDefaultAsync();
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        // GET: Department/Delete/{id}
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var department = await GetDepartmentById(id);
+            if (id == null || department == null)
+                return NotFound();
+
+            return View(department);
+        }
+
+        // POST: Department/Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int departmentId)
+        {
+            if (departmentId == null)
+                return NotFound();
+            var department = await _context.Departments.Where(dep => dep.DepartmentID == departmentId)
+                .Include(dep => dep.Courses)
+                .FirstOrDefaultAsync();
+
+            try
+            {
+                _context.Departments.Remove(department);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Unable to delete department");
+                return RedirectToAction(nameof(Index));
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        private async Task<Department>? GetDepartmentById(int? id)
+        {
+            if (id == null)
+                return null;
+            return await _context.Departments.Where(dep => dep.DepartmentID == id)
+                .Include(dep => dep.Courses)
+                .Include(dep => dep.Administrator)
+                .FirstOrDefaultAsync();
+        }
     }
 }
