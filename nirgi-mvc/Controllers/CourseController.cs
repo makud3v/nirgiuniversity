@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using nirgi_mvc.Data;
 using nirgi_mvc.Models;
+using nirgi_mvc.Models.ViewModels;
 
 namespace nirgi_mvc.Controllers
 {
@@ -38,8 +39,17 @@ namespace nirgi_mvc.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.DepartmentId = new SelectList(_context.Departments.AsNoTracking(), "DepartmentID", "Name");
+            CourseData courseData = new()
+            {
+                Course = new(),
+                AllStudents = _context.Students.AsNoTracking().ToList(),
+                AllInstructors = _context.Instructors.AsNoTracking().ToList(),
+                AssignedStudents = new List<Student>(),
+                AssignedInstructors = new List<Instructor>()
+            };
+            
 
-            return View();
+            return View(courseData);
         }
 
         // POST: Course/Create/{course}

@@ -1,4 +1,4 @@
-﻿@model nirgi_mvc.Models.Course
+﻿@model nirgi_mvc.Models.ViewModels.CourseData
 
 @{
     ViewData["Title"] = "Create";
@@ -9,40 +9,77 @@
 <h4>Course</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CourseID" class="control-label"></label>
-                <input asp-for="CourseID" class="form-control" />
-                <span asp-validation-for="CourseID" class="text-danger"></span>
+                <label asp-for="Course.CourseID" class="control-label"></label>
+                <input asp-for="Course.CourseID" class="form-control" />
+                <span asp-validation-for="Course.CourseID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="Course.Title" class="control-label"></label>
+                <input asp-for="Course.Title" class="form-control" />
+                <span asp-validation-for="Course.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Credits" class="control-label"></label>
-                <input asp-for="Credits" class="form-control" />
-                <span asp-validation-for="Credits" class="text-danger"></span>
+                <label asp-for="Course.Credits" class="control-label"></label>
+                <input asp-for="Course.Credits" class="form-control" />
+                <span asp-validation-for="Course.Credits" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Department" class="control-label"></label>
-                <select asp-for="DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID">
+                <label asp-for="Course.Department" class="control-label"></label>
+                <select asp-for="Course.DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID">
                     <option value="">-- Select Department --</option>
                 </select>
-                <span asp-validation-for="DepartmentID" class="text-danger" />
+                <span asp-validation-for="Course.DepartmentID" class="text-danger" />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
         </form>
+    </div>
+
+    <div class="col">
+        <div id="assignment-container">
+            <h2>Students</h2>
+            <table class="table">
+                <tr>
+                    <th>Nr.</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+
+                @foreach(var student in Model.AllStudents.ToList())
+                {
+                    <tr>
+                        <td>@student.Id</td>
+                        <td>@student.FullName</td>
+                    </tr>
+                }
+            </table>
+
+            <h2>Instructors</h2>
+            <table class="table">
+                <tr>
+                    <th>Nr.</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+                @foreach (var instructor in Model.AllInstructors.ToList())
+                {
+                    <tr>
+                        <td>@instructor.Id</td>
+                        <td>@instructor.FullName</td>
+                        <td></td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
 </div>
 
 <div>
     <a asp-action="Index" class="btn btn-outline-primary">Back</a>
+    <input type="submit" value="Create" class="btn btn-primary" />
 </div>
 
 @section Scripts {
