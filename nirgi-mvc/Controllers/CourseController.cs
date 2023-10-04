@@ -66,7 +66,7 @@ namespace nirgi_mvc.Controllers
                 AssignedStudents = new List<Student>(),
                 AssignedInstructors = new List<Instructor>()
             };
-            
+
 
             return View(courseData);
         }
@@ -78,7 +78,6 @@ namespace nirgi_mvc.Controllers
         {
             try
             {
-                // TO DO: IMPLEMENT ASSIGNED INSTRUCTORS, STUDENTS
                 UpdateCourseAssignees(courseData.Course, assignedInstructors, assignedStudents);
                 _context.Courses.Add(courseData.Course);
                 await _context.SaveChangesAsync();
@@ -99,32 +98,46 @@ namespace nirgi_mvc.Controllers
             if (course == null)
                 return NotFound();
 
-            ViewBag.DepartmentId = new SelectList(_context.Departments.AsNoTracking(), "DepartmentID", "Name");
+            var allStudents = await _context.Students
+                .Include(s => s.Enrollments)
+                .AsNoTracking()
+                .ToListAsync();
 
-            return View(course);
+            var allInstructors = await _context.Instructors
+                .Include(s => s.CourseAssignments)
+                .AsNoTracking()
+                .ToListAsync();
+
+            CourseData courseData = new()
+            {
+                Course = course,
+                AllStudents = allStudents,
+                AllInstructors = allInstructors,
+                AssignedStudents = allStudents.Where(student => student.Enrollments.Where(enrollment => enrollment.CourseID == course.CourseID).Count() != 0).ToList(),
+                AssignedInstructors = allInstructors.Where(instructor => instructor.CourseAssignments.Where(assignment => assignment.CourseID == course.CourseID).Count() != 0).ToList()
+            };
+
+            ViewBag.DepartmentId = new SelectList(_context.Departments.AsNoTracking(), "DepartmentID", "Name");
+            return View(courseData);
         }
 
         // POST: Course/Edit/{course}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Course cs)
+        public async Task<IActionResult> Edit([Bind("CourseID, Title, Credits, DepartmentID")] Course course)
         {
-            try
-            {
-                Course course = _context.Courses.Where(course => cs.CourseID == course.CourseID).FirstOrDefault();
-                await TryUpdateModelAsync<Course>(course, "",
+            var courseInstance = await _context.Courses.Where(c => c.CourseID == course.CourseID)
+                .Include(s => s.CourseAssignments)
+                .FirstOrDefaultAsync();
+            if (await TryUpdateModelAsync<Course>(courseInstance, "",
                     c => c.Title,
                     c => c.Credits,
-                    c => c.DepartmentID
-                );
-            }
-            catch (Exception ex)
+                    c => c.DepartmentID))
             {
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Course/Delete/{id}

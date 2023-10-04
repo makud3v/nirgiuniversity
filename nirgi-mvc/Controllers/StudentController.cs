@@ -25,7 +25,7 @@ namespace nirgi_mvc.Controllers
         // GET: Student/Details/{id}
         public async Task<IActionResult> Details(int? id)
         {
-            var student = await getStudentById(id);
+            var student = await GetStudentById(id);
             if (student == null)
             {
                 return NotFound();
@@ -38,7 +38,7 @@ namespace nirgi_mvc.Controllers
         // GET: Student/Edit/{id}
         public async Task<IActionResult> Edit(int? id)
         {
-            var student = await getStudentById(id);
+            var student = await GetStudentById(id);
             if (student == null)
             {
                 return NotFound();
@@ -74,7 +74,7 @@ namespace nirgi_mvc.Controllers
         // GET: Student/Delete/{id}
         public async Task<IActionResult> Delete(int? id)
         {
-            return View(await getStudentById(id));
+            return View(await GetStudentById(id));
         }
 
 
@@ -83,7 +83,7 @@ namespace nirgi_mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            Student student = await getStudentById(id);
+            Student student = await GetStudentById(id);
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -117,7 +117,7 @@ namespace nirgi_mvc.Controllers
         }
 
 
-        private async Task<Student> getStudentById(int? id)
+        private async Task<Student> GetStudentById(int? id)
         {
             return await _context.Students
                 .Include(s => s.Enrollments)
