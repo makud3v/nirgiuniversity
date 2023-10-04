@@ -12,7 +12,7 @@ using nirgi_mvc.Data;
 namespace nirgi_mvc.Migrations
 {
     [DbContext(typeof(MvcUniversityContext))]
-    [Migration("20231003125857_init")]
+    [Migration("20231004111546_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,6 @@ namespace nirgi_mvc.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 

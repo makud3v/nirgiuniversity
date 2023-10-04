@@ -39,6 +39,7 @@
             </dd>
         </dl>
 
+        <h2>Assigned courses</h2>
         <table class="table">
             <tr>
                 <th>Number</th>
@@ -46,9 +47,9 @@
                 <th>Department</th>
             </tr>
 
-            @foreach (Course course in Model.AllCourses.ToList())
+            @foreach (CourseAssignment courseAssignment in Model.Instructor.CourseAssignments.ToList())
             {
-                var assigned = (Model.Instructor.CourseAssignments.Where(assignment => assignment.CourseID == course.CourseID).Count() != 0);
+                var course = courseAssignment.Course;
                 <tr>
                     <td>@course.CourseID</td>
                     <td>@course.Title</td>

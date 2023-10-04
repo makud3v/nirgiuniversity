@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
+    var assignedStudents = new List<int>();
+    var assignedInstructors = new List<int>();
 }
 
 <h1>Create</h1>
@@ -9,8 +11,9 @@
 <h4>Course</h4>
 <hr />
 <div class="row">
+    <form id="createForm" asp-action="Create">
     <div class="col-md-3">
-        <form asp-action="Create">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Course.CourseID" class="control-label"></label>
@@ -34,8 +37,6 @@
                 </select>
                 <span asp-validation-for="Course.DepartmentID" class="text-danger" />
             </div>
-
-        </form>
     </div>
 
     <div class="col">
@@ -53,6 +54,9 @@
                     <tr>
                         <td>@student.Id</td>
                         <td>@student.FullName</td>
+                        <td>
+                            <input type="checkbox" name="assignedStudents" value="@student.Id">
+                        </td>
                     </tr>
                 }
             </table>
@@ -69,17 +73,21 @@
                     <tr>
                         <td>@instructor.Id</td>
                         <td>@instructor.FullName</td>
-                        <td></td>
+                        <td>
+                            <input type="checkbox" name="assignedInstructors" value="@instructor.Id">
+                        </td>
                     </tr>
                 }
             </table>
         </div>
     </div>
+    </form>
 </div>
 
 <div>
     <a asp-action="Index" class="btn btn-outline-primary">Back</a>
-    <input type="submit" value="Create" class="btn btn-primary" />
+
+    <input type="submit" form="createForm" value="Create" class="btn btn-primary" />
 </div>
 
 @section Scripts {

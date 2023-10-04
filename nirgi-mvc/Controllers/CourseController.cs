@@ -32,7 +32,26 @@ namespace nirgi_mvc.Controllers
             if (course == null)
                 return NotFound();
 
-            return View(course);
+            var allStudents = await _context.Students
+                .Include(s => s.Enrollments)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var allInstructors = await _context.Instructors
+                .Include(s => s.CourseAssignments)
+                .AsNoTracking()
+                .ToListAsync();
+
+            CourseData courseData = new()
+            {
+                Course = course,
+                AllStudents = allStudents,
+                AllInstructors = allInstructors,
+                AssignedStudents = allStudents.Where(student => student.Enrollments.Where(enrollment => enrollment.CourseID == course.CourseID).Count() != 0).ToList(),
+                AssignedInstructors = allInstructors.Where(instructor => instructor.CourseAssignments.Where(assignment => assignment.CourseID == course.CourseID).Count() != 0).ToList()
+            };
+
+            return View(courseData);
         }
 
         // GET: Course/Create
@@ -52,23 +71,25 @@ namespace nirgi_mvc.Controllers
             return View(courseData);
         }
 
-        // POST: Course/Create/{course}
+        // POST: Course/Create/{courseData}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Course course)
+        public async Task<IActionResult> Create(CourseData courseData, int[]? assignedInstructors, int[]? assignedStudents)
         {
             try
             {
-                _context.Courses.Add(course);
+                // TO DO: IMPLEMENT ASSIGNED INSTRUCTORS, STUDENTS
+                UpdateCourseAssignees(courseData.Course, assignedInstructors, assignedStudents);
+                _context.Courses.Add(courseData.Course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", "Unable to save changes");
             }
 
-            return View(course);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Course/Edit/{id}
@@ -124,10 +145,54 @@ namespace nirgi_mvc.Controllers
 
         private async Task<Course> GetCourseById(int? id)
         {
-            return await _context.Courses
+            var result = await _context.Courses
                 .Include(c => c.Department)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.CourseID == id);
+
+            return result;
+        }
+
+        private async Task<bool> UpdateCourseAssignees(Course course, int[]? assignedInstructors, int[]? assignedStudents)
+        {
+            if (assignedInstructors == null && assignedStudents == null) return false;
+            if (course.CourseAssignments == null)
+                course.CourseAssignments = new List<CourseAssignment>();
+
+            course.CourseAssignments?.Clear();
+            foreach (int id in assignedInstructors)
+            {
+                var instructor = await _context.Instructors.Where(instructor => instructor.Id == id).FirstOrDefaultAsync();
+                var courseAssignment = new CourseAssignment()
+                {
+                    Course = course,
+                    CourseID = course.CourseID,
+                    Instructor = instructor,
+                    InstructorID = id
+                };
+                course.CourseAssignments.Add(courseAssignment);
+
+                if (instructor.CourseAssignments == null)
+                    instructor.CourseAssignments = new List<CourseAssignment>();
+                instructor.CourseAssignments.Add(courseAssignment);
+            }
+
+            foreach (int id in assignedStudents)
+            {
+                var student = await _context.Students.Where(student => student.Id == id).FirstOrDefaultAsync();
+                var enrollment = new Enrollment()
+                {
+                    Student = student,
+                    StudentID = id,
+                    Course = course,
+                    CourseID = course.CourseID
+                };
+                if (student.Enrollments == null)
+                    student.Enrollments = new List<Enrollment>();
+                student.Enrollments.Add(enrollment);
+            }
+
+            return true;
         }
     }
 }

@@ -355,6 +355,14 @@ C:\Users\makud3v\Development\Coding\Projects\nirgiuniversity\nirgi-mvc\obj\Debug
 C:\Users\makud3v\Development\Coding\Projects\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.pdb
 C:\Users\makud3v\Development\Coding\Projects\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.genruntimeconfig.cache
 C:\Users\makud3v\Development\Coding\Projects\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\ref\nirgi-university.dll
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.csproj.AssemblyReference.cache
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.AssemblyInfoInputs.cache
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.AssemblyInfo.cs
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.csproj.CoreCompileInputs.cache
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.RazorAssemblyInfo.cache
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.RazorAssemblyInfo.cs
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\appsettings.json
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\libman.json
@@ -382,6 +390,7 @@ C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\System.Drawing.Common.dll
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\System.Runtime.Caching.dll
@@ -400,14 +409,6 @@ C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.csproj.AssemblyReference.cache
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.AssemblyInfoInputs.cache
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.AssemblyInfo.cs
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.csproj.CoreCompileInputs.cache
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.RazorAssemblyInfo.cache
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.RazorAssemblyInfo.cs
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\staticwebassets\msbuild.nirgi-university.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\staticwebassets\msbuild.build.nirgi-university.props
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.nirgi-university.props
@@ -424,4 +425,3 @@ C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.pdb
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\nirgi-university.genruntimeconfig.cache
 C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\obj\Debug\net6.0\ref\nirgi-university.dll
-C:\Users\opilane\source\repos\TARpe22\MNirgi\nirgiuniversity\nirgi-mvc\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
