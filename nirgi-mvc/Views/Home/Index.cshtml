@@ -1,10 +1,24 @@
 ﻿@{
+    ViewData["Title"] = "Home";
 }
 
 <div>
     <h1>Nirgi University</h1>
-    <div>
-        <h4>The best school on Earth.</h4>
+    <div class="row">
+        <div class="col-md">
+            <h2>The best school on Earth.</h2>
+        </div>
+        <div class="col">
+            <h3>Home to <span class="number-highlight">@(ViewBag.StudentCount ?? 0)</span> students</h3>
+            <h3>Studying <span class="number-highlight">@(ViewBag.CourseCount ?? 0)</span> courses</h3>
+            <h3>Taught by <span class="number-highlight">@(ViewBag.InstructorCount ?? 0)</span> instructors</h3>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col-md"></div>
+        <div class="col-md">
+            <button class="btn btn-primary w-100 p-3">Enroll now</button>
+        </div>
     </div>
 </div>
     

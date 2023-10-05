@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace nirgi_mvc.Models
 {
@@ -24,7 +24,7 @@ namespace nirgi_mvc.Models
         [Timestamp]
         public byte[] RowVersion { get; set; }
 
-        public Instructor Administrator { get; set; }
+        public Instructor? Administrator { get; set; }
         public ICollection<Course> Courses { get; set; }
 
         public static implicit operator Department(List<Department> v)

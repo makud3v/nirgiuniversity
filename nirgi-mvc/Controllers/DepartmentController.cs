@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using nirgi_mvc.Data;
 using nirgi_mvc.Models;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace nirgi_mvc.Controllers
@@ -67,8 +67,7 @@ namespace nirgi_mvc.Controllers
             if (id == null || department == null)
                 return NotFound();
 
-
-            ViewBag.Instructors = await _context.Instructors.ToListAsync();    
+            ViewBag.Instructors = await _context.Instructors.ToListAsync();
             return View(department);
         }
 

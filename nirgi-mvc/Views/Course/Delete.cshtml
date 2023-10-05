@@ -4,10 +4,11 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1 class="text-danger">DELETE</h1>
+<h1 class="text-danger">DELETE COURSE</h1>
 <h4>@Model.Title - @Model.Department?.Name</h4>
 <br />
-<h5>Are you sure you want to get rid of this course?</h5>
+<h5>There are @Model.CourseAssignments.Count course assignments and @Model.Enrollments.Count enrollments assigned to this course </h5>
+<h5>Are you sure you want to get rid of it?</h5>
 
 @using (Html.BeginForm())
 {

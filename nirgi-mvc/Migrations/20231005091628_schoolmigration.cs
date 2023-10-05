@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace nirgi_mvc.Migrations
 {
-    public partial class init : Migration
+    public partial class schoolmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

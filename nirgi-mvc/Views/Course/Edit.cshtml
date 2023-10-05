@@ -8,38 +8,82 @@
 
 <h4>Course</h4>
 <hr />
+<form asp-action="Edit">
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Course.CourseID" />
-            <div class="form-group">
-                <label asp-for="Course.CourseID" class="control-label"></label>
-                <div>@Html.DisplayFor(model => model.Course.CourseID)</div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Course.Title" class="control-label"></label>
-                <input asp-for="Course.Title" class="form-control" />
-                <span asp-validation-for="Course.Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Course.Credits" class="control-label"></label>
-                <input asp-for="Course.Credits" class="form-control" />
-                <span asp-validation-for="Course.Credits" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Course.Department" class="control-label"></label>
-                <select asp-for="Course.DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID">
-                    <option value="">-- Select Department --</option>
-                </select>
-                <span asp-validation-for="Course.DepartmentID" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <a asp-action="Index" class="btn btn-outline-primary">Back</a>
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+
+    <div class="col-md-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Course.CourseID"/>
+        <div class="form-group">
+            <label asp-for="Course.CourseID" class="control-label"></label>
+            <div>@Html.DisplayFor(model => model.Course.CourseID)</div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Course.Title" class="control-label"></label>
+            <input asp-for="Course.Title" class="form-control" />
+            <span asp-validation-for="Course.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Course.Credits" class="control-label"></label>
+            <input asp-for="Course.Credits" class="form-control" />
+            <span asp-validation-for="Course.Credits" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Course.Department" class="control-label"></label>
+            <select asp-for="Course.DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID">
+                <option value="">-- Select Department --</option>
+            </select>
+            <span asp-validation-for="Course.DepartmentID" class="text-danger" />
+        </div>
+        <div class="form-group">
+            <a asp-action="Index" class="btn btn-outline-primary">Back</a>
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
     </div>
+
+    <div class="col-md">
+        <h2>Assigned students</h2>
+        <table class="table">
+            <tr>
+                <th>Nr.</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+
+            @foreach (var student in Model.AllStudents.ToList())
+            {
+                bool assigned = Model.AssignedStudents.Contains(student);
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.FullName</td>
+                    <td>
+                        <input type="checkbox" name="assignedStudents" value="@student.Id" checked="@assigned">
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <h2>Assigned instructors</h2>
+        <table class="table">
+            <tr>
+                <th>Nr.</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+            @foreach (var instructor in Model.AllInstructors.ToList())
+            {
+                    bool assigned = Model.AssignedInstructors.Contains(instructor);
+                    <tr>
+                    <td>@instructor.Id</td>
+                    <td>@instructor.FullName</td>
+                    <td>
+                        <input type="checkbox" name="assignedInstructors" value="@instructor.Id" checked="@assigned">
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</form>
 </div>
 
 @section Scripts {

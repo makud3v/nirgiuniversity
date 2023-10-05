@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using nirgi_mvc.Data;
-using Microsoft.EntityFrameworkCore;
 using nirgi_mvc.Models;
 
 namespace nirgi_mvc.Controllers

@@ -12,8 +12,8 @@ using nirgi_mvc.Data;
 namespace nirgi_mvc.Migrations
 {
     [DbContext(typeof(MvcUniversityContext))]
-    [Migration("20231004120428_init")]
-    partial class init
+    [Migration("20231005091628_schoolmigration")]
+    partial class schoolmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

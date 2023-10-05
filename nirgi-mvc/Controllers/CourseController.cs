@@ -78,7 +78,7 @@ namespace nirgi_mvc.Controllers
         {
             try
             {
-                UpdateCourseAssignees(courseData.Course, assignedInstructors, assignedStudents);
+                await UpdateCourseAssignees(courseData.Course, assignedInstructors, assignedStudents);
                 _context.Courses.Add(courseData.Course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -124,18 +124,25 @@ namespace nirgi_mvc.Controllers
         // POST: Course/Edit/{course}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([Bind("CourseID, Title, Credits, DepartmentID")] Course course)
+        public async Task<IActionResult> Edit(
+            [Bind("CourseID, Title, Credits, DepartmentID")] Course course, 
+            int[]? assignedInstructors, 
+            int[]? assignedStudents)
         {
-            var courseInstance = await _context.Courses.Where(c => c.CourseID == course.CourseID)
-                .Include(s => s.CourseAssignments)
+            var courseInstance = await _context.Courses
+                .Where(c => c.CourseID == course.CourseID)
+                .Include(c => c.Department)
+                .Include(c => c.CourseAssignments)
+                .Include(c => c.Enrollments)
                 .FirstOrDefaultAsync();
-            if (await TryUpdateModelAsync<Course>(courseInstance, "",
-                    c => c.Title,
-                    c => c.Credits,
-                    c => c.DepartmentID))
-            {
-                await _context.SaveChangesAsync();
-            }
+            await UpdateCourseAssignees(courseInstance, assignedInstructors, assignedStudents);
+
+            if (courseInstance.Department == null)
+                courseInstance.Department = await _context.Departments.Where(d => d.DepartmentID == course.DepartmentID).FirstOrDefaultAsync();
+            courseInstance.Title = course.Title;
+            courseInstance.Credits = course.Credits;
+            courseInstance.DepartmentID = course.DepartmentID;
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -160,6 +167,9 @@ namespace nirgi_mvc.Controllers
         {
             var result = await _context.Courses
                 .Include(c => c.Department)
+                .Include(c => c.Enrollments)
+                .Include(c => c.CourseAssignments)
+                    .ThenInclude(ca => ca.Instructor)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.CourseID == id);
 
@@ -169,10 +179,15 @@ namespace nirgi_mvc.Controllers
         private async Task<bool> UpdateCourseAssignees(Course course, int[]? assignedInstructors, int[]? assignedStudents)
         {
             if (assignedInstructors == null && assignedStudents == null) return false;
+
             if (course.CourseAssignments == null)
                 course.CourseAssignments = new List<CourseAssignment>();
+            course.CourseAssignments.Clear();
 
-            course.CourseAssignments?.Clear();
+            if (course.Enrollments == null)
+                course.Enrollments = new List<Enrollment>();
+            course.Enrollments.Clear();
+
             foreach (int id in assignedInstructors)
             {
                 var instructor = await _context.Instructors.Where(instructor => instructor.Id == id).FirstOrDefaultAsync();

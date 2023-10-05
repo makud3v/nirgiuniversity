@@ -10,64 +10,68 @@
     <h4>Course</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.CourseID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.CourseID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Credits)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Credits)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Department)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Department.Name)
-        </dd>
+        <div class="col-md-2">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Course.CourseID)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Course.CourseID)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Course.Title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Course.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Course.Credits)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Course.Credits)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Course.Department)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Course.Department.Name)
+            </dd>
+        </div>
+
+
+        <div class="col-md">
+            <h2>Assigned students</h2>
+            <table class="table">
+                <tr>
+                    <th>Nr.</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var student in Model.AssignedStudents.ToList())
+                {
+                    <tr>
+                        <td>@student.Id</td>
+                        <td>@student.FullName</td>
+                    </tr>
+                }
+            </table>
+
+            <h2>Assigned instructors</h2>
+            <table class="table">
+                <tr>
+                    <th>Nr.</th>
+                    <th>Name</th>
+                </tr>
+                @foreach (var instructor in Model.AssignedInstructors.ToList())
+                {
+                    <tr>
+                        <td>@instructor.Id</td>
+                        <td>@instructor.FullName</td>
+                    </tr>
+                }
+            </table>
+        </div>
     </dl>
-    <div id="assignment-container">
-        <h2>Assigned students</h2>
-        <table class="table">
-            <tr>
-                <th>Nr.</th>
-                <th>Name</th>
-                <th></th>
-            </tr>
-
-            @foreach (var student in Model.AssignedStudents.ToList())
-            {
-                <tr>
-                    <td>@student.Id</td>
-                    <td>@student.FullName</td>
-                </tr>
-            }
-        </table>
-
-        <h2>Assigned instructors</h2>
-        <table class="table">
-            <tr>
-                <th>Nr.</th>
-                <th>Name</th>
-            </tr>
-            @foreach (var instructor in Model.AssignedInstructors.ToList())
-            {
-                <tr>
-                    <td>@instructor.Id</td>
-                    <td>@instructor.FullName</td>
-                </tr>
-            }
-        </table>
-    </div>
 </div>
 <div>
     <a asp-action="Index" class="btn btn-outline-primary">Back</a>

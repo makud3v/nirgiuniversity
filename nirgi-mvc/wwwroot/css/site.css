@@ -20,3 +20,8 @@ body {
 button a {
     text-decoration: none;
 }
+
+.number-highlight {
+    color: rgb(5, 113, 255);
+    font-weight: bold;
+}

@@ -7,7 +7,7 @@ namespace nirgi_mvc.Data
         public static void Initialize(MvcUniversityContext context)
         {
             context.Database.EnsureCreated(); // ensure that database and its tables are created
-            
+
 
             if (context.Students.Any()) return; // if there are students, return and break out of function
 
@@ -229,6 +229,6 @@ namespace nirgi_mvc.Data
             }
             context.SaveChanges();
 
-    }
+        }
     }
 }

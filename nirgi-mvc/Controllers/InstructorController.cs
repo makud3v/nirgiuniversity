@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using nirgi_mvc.Data;
-using nirgi_mvc.Models.ViewModels;
-using nirgi_mvc.Models;
 using Microsoft.EntityFrameworkCore;
+using nirgi_mvc.Data;
+using nirgi_mvc.Models;
+using nirgi_mvc.Models.ViewModels;
 
 namespace nirgi_mvc.Controllers
 {
@@ -50,7 +50,7 @@ namespace nirgi_mvc.Controllers
 
             return View(viewModel);
         }
-        
+
 
         // GET: Instructor/Create
         public async Task<IActionResult> Create()

@@ -1,6 +1,4 @@
-﻿using nirgi_mvc.Models;
-
-namespace nirgi_mvc.Models.ViewModels
+﻿namespace nirgi_mvc.Models.ViewModels
 {
     public class InstructorDetailData
     {
