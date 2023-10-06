@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using nirgi_mvc.Data;
 using nirgi_mvc.Models;
 
-
 namespace nirgi_mvc.Controllers
 {
     public class DepartmentController : Controller
@@ -41,6 +40,7 @@ namespace nirgi_mvc.Controllers
                 return NotFound();
             }
 
+            // find and set department administrator manually
             dept.Administrator = await _context.Instructors.Where(i => i.Id == administratorId).FirstOrDefaultAsync();
             _context.Departments.Add(dept);
             await _context.SaveChangesAsync();
@@ -54,7 +54,6 @@ namespace nirgi_mvc.Controllers
             var department = await GetDepartmentById(id);
             if (id == null || department == null)
                 return NotFound();
-
 
             return View(department);
         }
@@ -74,14 +73,23 @@ namespace nirgi_mvc.Controllers
         // POST: Department/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Department department, int? adminId)
+        public async Task<IActionResult> Edit(Department department, int? adminId, int[]? assignedCourses)
         {
 
             var departmentToUpdate = await GetDepartmentById(department.DepartmentID);
             if (departmentToUpdate == null)
                 return NotFound();
 
-            TryUpdateModelAsync(departmentToUpdate, "",
+            // clear existing courses and replace with new ones
+            departmentToUpdate.Courses.Clear();
+            foreach(var courseID in assignedCourses)
+            {
+                var course = await _context.Courses.Where(c => c.CourseID == courseID).FirstOrDefaultAsync();
+                departmentToUpdate.Courses.Add(course);
+            }
+
+            // update basic details
+            await TryUpdateModelAsync(departmentToUpdate, "",
                 s => s.Name,
                 s => s.Budget
             );
@@ -111,8 +119,6 @@ namespace nirgi_mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int departmentId)
         {
-            if (departmentId == null)
-                return NotFound();
             var department = await _context.Departments.Where(dep => dep.DepartmentID == departmentId)
                 .Include(dep => dep.Courses)
                 .FirstOrDefaultAsync();
@@ -132,7 +138,7 @@ namespace nirgi_mvc.Controllers
         }
 
 
-        private async Task<Department>? GetDepartmentById(int? id)
+        private async Task<Department> GetDepartmentById(int? id)
         {
             if (id == null)
                 return null;

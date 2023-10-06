@@ -1,4 +1,6 @@
-﻿using nirgi_mvc.Models;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using nirgi_mvc.Models;
 
 namespace nirgi_mvc.Data
 {
@@ -6,8 +8,8 @@ namespace nirgi_mvc.Data
     {
         public static void Initialize(MvcUniversityContext context)
         {
+            context.Database.Migrate();
             context.Database.EnsureCreated(); // ensure that database and its tables are created
-
 
             if (context.Students.Any()) return; // if there are students, return and break out of function
 

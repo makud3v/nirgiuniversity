@@ -15,29 +15,66 @@
     <fieldset>
         @Html.HiddenFor(model => model.Id)
         <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-            <dd class="form-group col-sm-10">
-                @Html.EditorFor(model => model.LastName)
-            </dd>
+            <div class="col-md-3">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="form-group col-sm-10">
+                    @Html.EditorFor(model => model.LastName)
+                </dd>
 
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.FirstName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.EditorFor(model => model.FirstName)
-            </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.EditorFor(model => model.FirstName)
+                </dd>
 
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EnrollmentDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.EditorFor(model => model.EnrollmentDate)
-            </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.EnrollmentDate)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.EditorFor(model => model.EnrollmentDate)
+                </dd>
+            </div>
+            <div class="col">
+                <h2>Enrolled courses</h2>
+                <table class="table">
+                    <tr>
+                        <th>Nr.</th>
+                        <th>Name</th>
+                        <th>Credits</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var course in ViewBag.Courses)
+                    {
+                        var enrollment = Model.Enrollments.Where(e => e.CourseID == course.CourseID).FirstOrDefault();
+                        var enrolled = enrollment != null;
+                        var grade = enrollment?.Grade.ToString();
+
+                        <tr>
+                            <td>@course.CourseID</td>
+                            <td>@course.Title</td>
+                            <td>@course.Credits</td>
+                            <td>
+                                <input class="form-check" type="checkbox" name="enrolledCourses" value="@course.CourseID" checked="@enrolled">
+                            </td>
+                            <td>
+                                <select name="courseGrades" class="form-select" disabled="@(!enrolled)">
+                                    <option value="A" selected="@(grade=="A")">A</option>
+                                    <option value="B" selected="@(grade=="B")">B</option>
+                                    <option value="C" selected="@(grade=="C")">C</option>
+                                    <option value="D" selected="@(grade=="D")">D</option>
+                                    <option value="F" selected="@(grade=="F")">F</option>
+                                </select>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </dl>
 
         <button class="btn btn-outline-primary"> <a asp-action="Index">Back</a> </button>
-        <input type="submit" value="Save" class="btn btn-outline-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" />
     </fieldset>
 }

@@ -2047,23 +2047,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\makud3v\\.nuget\\packages\\": {},
+    "C:\\Users\\opilane\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\makud3v\\Development\\Coding\\Projects\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
+      "projectUniqueName": "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
       "projectName": "nirgi-university",
-      "projectPath": "C:\\Users\\makud3v\\Development\\Coding\\Projects\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
-      "packagesPath": "C:\\Users\\makud3v\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\makud3v\\Development\\Coding\\Projects\\nirgiuniversity\\nirgi-mvc\\obj\\",
+      "projectPath": "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\nirgi-university.csproj",
+      "packagesPath": "C:\\Users\\opilane\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\opilane\\source\\repos\\TARpe22\\MNirgi\\nirgiuniversity\\nirgi-mvc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\makud3v\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\opilane\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -2125,7 +2125,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

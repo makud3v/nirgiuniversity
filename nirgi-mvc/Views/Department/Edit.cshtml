@@ -13,8 +13,9 @@
 {
     @Html.AntiForgeryToken()
     <fieldset>
-        @Html.HiddenFor(model => model.DepartmentID);
+        @Html.HiddenFor(model => model.DepartmentID)
         <dl class="row">
+            <div class="col-md-3">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Name)
             </dt>
@@ -48,6 +49,48 @@
                 }
                 </select>
             </dt>
+            </div>
+
+
+            <div class="col">
+                <h2>Courses assigned to this department</h2>
+                <table class="table">
+                    <tr>
+                        <th>Nr.</th>
+                        <th>Name</th>
+                        <th>Credits</th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var course in Model.Courses)
+                    {
+                        <tr>
+                            <td>@course.CourseID</td>
+                            <td>@course.Title</td>
+                            <td>@course.Credits</td>
+                            <td>
+                                <input type="checkbox" name="assignedCourses" value="@course.CourseID" checked>
+                            </td>
+                            <td>
+                                <select name="courseGrades" class="form-select">
+                                    @foreach (var instructor in ViewBag.Instructors)
+                                    {
+                                        @if (instructor.Id == adminId)
+                                        {
+                                            <option value="@instructor.Id" selected>@instructor.FullName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@instructor.Id">@instructor.FullName</option>
+                                        }
+
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </dl>
 
         <a asp-action="Index" class="btn btn-outline-primary">Back</a>

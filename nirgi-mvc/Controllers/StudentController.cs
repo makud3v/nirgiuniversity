@@ -44,18 +44,47 @@ namespace nirgi_mvc.Controllers
                 return NotFound();
             }
 
+            ViewBag.Courses = await _context.Courses.ToListAsync();
             return View(student);
         }
 
         // POST: Student/Edit/{student}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Student std)
+        public async Task<ActionResult> Edit(Student std, int[] enrolledCourses, string[] courseGrades)
         {
             try
             {
-                Student student = _context.Students.Where(student => student.Id == std.Id).FirstOrDefault();
-                await TryUpdateModelAsync<Student>(student, "",
+                // get a student instance by id
+                Student student = await GetStudentById(std.Id);
+
+                // clear their enrollments and replace with new ones
+                student.Enrollments.Clear();
+
+                int i = 0;
+                foreach(var courseID in enrolledCourses)
+                {
+                    var course = await _context.Courses.Where(c => c.CourseID == courseID).FirstOrDefaultAsync();
+                    if (course == null) 
+                        return BadRequest();
+
+
+                    // create a new enrollment for them
+                    var grade = courseGrades.ElementAtOrDefault(i);
+                    var enrollment = new Enrollment()
+                    {
+                        Course = course,
+                        CourseID = courseID,
+                        Student = student,
+                        StudentID = student.Id,
+                        Grade = grade != null ? ParseStringToGrade(grade) : null
+                    };
+                    student.Enrollments.Add(enrollment);
+                    i++;
+                }
+
+                // update basic details
+                await TryUpdateModelAsync(student, "",
                     s => s.FirstName,
                     s => s.LastName,
                     s => s.EnrollmentDate
@@ -117,12 +146,24 @@ namespace nirgi_mvc.Controllers
         }
 
 
+        private Grade? ParseStringToGrade(string grade)
+        {
+            switch(grade)
+            {
+                case "A":return Grade.A;
+                case "B": return Grade.B;
+                case "C":return Grade.C;
+                case "D":return Grade.D;
+                case "F": return Grade.F;
+            }
+            return null;
+        }
+
         private async Task<Student> GetStudentById(int? id)
         {
             return await _context.Students
                 .Include(s => s.Enrollments)
                 .ThenInclude(equals => equals.Course)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
     }
