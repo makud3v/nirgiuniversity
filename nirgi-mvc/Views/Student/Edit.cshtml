@@ -51,16 +51,17 @@
                         var enrollment = Model.Enrollments.Where(e => e.CourseID == course.CourseID).FirstOrDefault();
                         var enrolled = enrollment != null;
                         var grade = enrollment?.Grade.ToString();
+                        var itemid = course.CourseID;
 
                         <tr>
                             <td>@course.CourseID</td>
                             <td>@course.Title</td>
                             <td>@course.Credits</td>
                             <td>
-                                <input class="form-check" type="checkbox" name="enrolledCourses" value="@course.CourseID" checked="@enrolled">
+                                <input class="form-check" type="checkbox" name="enrolledCourses" onchange="changeTickbox('@itemid')" value="@course.CourseID" checked="@enrolled">
                             </td>
                             <td>
-                                <select name="courseGrades" class="form-select" disabled="@(!enrolled)">
+                                <select name="courseGrades" class="form-select" disabled="@(!enrolled)" id="gradeSelect_@itemid">
                                     <option value="A" selected="@(grade=="A")">A</option>
                                     <option value="B" selected="@(grade=="B")">B</option>
                                     <option value="C" selected="@(grade=="C")">C</option>
@@ -77,4 +78,16 @@
         <button class="btn btn-outline-primary"> <a asp-action="Index">Back</a> </button>
         <input type="submit" value="Save" class="btn btn-primary" />
     </fieldset>
+
+}
+
+@section Scripts 
+{
+<script>
+    function changeTickbox(itemid) {
+        var checkbox = document.querySelector(`[value='${itemid}']`);
+        var selectBox = document.getElementById(`gradeSelect_${itemid}`);
+        selectBox.disabled = !checkbox.checked;
+    }
+</script>
 }
