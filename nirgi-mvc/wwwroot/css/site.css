@@ -25,3 +25,20 @@ button a {
     color: rgb(5, 113, 255);
     font-weight: bold;
 }
+
+.nav-item {
+    transition-duration: 0.15s;
+}
+
+.nav-item:hover {
+    font-size: large;
+}
+
+.navbar-brand {
+    font-size: xx-large;
+}
+
+tr.header {
+    background-color: rgb(5, 113, 255);
+    color: white;
+}

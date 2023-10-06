@@ -4,11 +4,12 @@
     List<int> assignedCourses = new();
 }
 
+<h2>Instructor</h2>
 @using(Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <fieldset>
-        @Html.HiddenFor(model => model.Instructor.Id);
+        @Html.HiddenFor(model => model.Instructor.Id)
         <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Instructor.LastName)
@@ -39,8 +40,9 @@
             </dd>
         </dl>
 
+        <h2>Assigned courses</h2>
         <table class="table">
-            <tr>
+            <tr class="header">
                 <th>Number</th>
                 <th>Title</th>
                 <th>Department</th>
